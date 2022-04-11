@@ -1,0 +1,7 @@
+.Aside {
+    height: 40vh;
+    width:20%;
+    background-color: var(--main_color);
+    color:white; 
+}
+

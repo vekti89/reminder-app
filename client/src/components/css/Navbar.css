@@ -1,0 +1,42 @@
+.Navbar {
+    height: 40vh;
+    width:20%;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-top: 4em;
+    background-color: var(--main_color);
+    color:white; 
+    }
+
+.Navbar a{
+    width:60%;
+    text-decoration: none;
+    color:inherit;
+    border:1px solid white;
+    border-right:none; 
+    margin:0.1em 0; 
+    padding-left:1em;
+}
+
+.Navbar a:hover, .Navbar a:first-of-type{
+    background-color: white;
+    color:var(--main_color);
+}
+
+
+@media (max-width:1200px) {
+    .Navbar {
+        width:100%;
+        height:10em;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding-top:0;
+    }
+    .Navbar a{
+        width:8em;
+        border:1px solid white;
+        margin:0 0.1em; 
+    }
+}

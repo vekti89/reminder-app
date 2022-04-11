@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://vesna:reminder@reminder.8j5f8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "jwtSecret": "mySecretToken"
+}

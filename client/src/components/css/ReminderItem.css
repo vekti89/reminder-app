@@ -1,0 +1,39 @@
+.ReminderItem {
+  display:flex; 
+  justify-content: space-between;
+}
+
+.ReminderItem p {
+  width: 25%;
+}
+
+.ReminderItem button {
+  border: none;
+  background-color: white;
+  font-weight: bold;
+  color:var(--main_color);
+  cursor:pointer;
+  padding: 0;
+}
+
+
+@media (max-width:768px) {
+  .ReminderItem {
+    flex-direction: column;
+    border-bottom: 1px solid var(--main_color);
+  }
+  .ReminderItem p {
+    width: 100%;
+    display:flex;
+    padding: 0.3em 0;
+  }
+  .ReminderItem span {
+    width: 40%;
+    display:flex;
+    font-weight: bold;
+  }
+  .ReminderItem button {
+    padding: 0 0.3em;
+  }
+  
+}

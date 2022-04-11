@@ -86,7 +86,7 @@ async function main(email, occasion) {
 }
 
 
-//THIS CRON TAKES CARE OF SENDING E-MAILS
+//THIS CRON TAKES CARE OF SENDING E-MAILS 
 cron.schedule('0 0 * * *', () => {
     sendEmails(Reminder);
 }, {

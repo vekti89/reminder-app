@@ -36,7 +36,7 @@ async function sendEmails(Reminder) {
     const currDate = Math.ceil(Date.now() / 86400000);
     //first Jan current year since Epoch
     const firstJanSinceEpoch = Math.ceil((new Date(`1 1 ${new Date().getFullYear()}`).getTime()) / 86400000)
-    const currDays = currDate - firstJanSinceEpoch;
+    const currDays = currDate - firstJanSinceEpoch + 1;
 
     //fix dates in Jan (not to skipp reminders from the beginning of the next year)
     const fixedReminders = reminders.map (r => ((r.eventInDays - r.interval) < 0 ? { ...r, eventInDays: r.eventInDays + currDays } : r));

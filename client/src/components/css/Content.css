@@ -1,0 +1,42 @@
+.Content {
+    display:flex;
+    flex-direction: column;
+    margin-top: 2em;
+}
+.UserOptions {
+    margin-left:2em;
+    font-weight: bold;
+}
+
+.UserOptions a{
+    width: 11em;
+    color:var(--main_color);
+    text-decoration: none;
+    margin-bottom: 0.5em;
+    border:2px solid var(--main_color)
+    
+}
+
+.UserOptions a:hover {
+    background-color: white;
+    color:var(--main_color);
+}
+.UserOptions a:focus {
+    background-color: white;
+    color:var(--main_color);
+}
+ 
+
+.components {
+    display:flex; 
+    flex-direction: row;
+    margin-top: 2em;
+}
+
+@media (max-width:1200px) {
+    .components {
+        flex-direction: column;
+        margin-top: 2em;
+
+    }
+}

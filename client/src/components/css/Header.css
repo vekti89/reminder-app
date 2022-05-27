@@ -1,0 +1,20 @@
+.Header {
+    margin-top: 3em;
+}
+
+.Header-span {
+    display: inline-block;
+    width: 73.5%;
+    border-bottom: 3px solid var(--main_color);
+}
+
+.Header-title {
+    letter-spacing: 0.3rem;
+    font-weight: 500;
+}
+
+@media (max-width:1200px) {
+    .Header-span {
+        width:60%;
+    }
+}

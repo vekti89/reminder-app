@@ -1,0 +1,16 @@
+.ReminderList-reminders {
+  border: 3px solid var(--main_color);
+  min-height:17em;
+  margin-top:2em;
+  padding:1.5em 1em;
+}
+
+.ReminderList-Title {
+  display:flex; 
+  justify-content: flex-start;
+}
+
+.ReminderList-Title p{
+  width:25%;
+  font-weight: bold;
+}

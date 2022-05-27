@@ -1,0 +1,35 @@
+.Page2 {
+    width:60%;
+    padding:2em;
+    
+}
+
+.Page2-border {
+    display: inline-block;
+    height:1.5em;
+    width: 1.5em;
+    border-bottom:3px solid var(--main_color);
+    position:relative;
+    
+}
+
+.Page2 .left {
+    border-left:3px solid var(--main_color);
+    border-bottom-left-radius: 0.5em;
+    right:2em;
+}
+.Page2 .right {
+    float:right;
+    border-right:3px solid var(--main_color);
+    border-bottom-right-radius: 0.5em;
+    left:2em;
+}
+
+@media (max-width:1200px) {
+    .Page2 {
+        width:100%;
+    }
+    .Page2 .right, .Page2 .left {
+        margin:0.5em;
+    }
+}

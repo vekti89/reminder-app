@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import ReminderContext from '../../context/ReminderContext';
+
 import '../css/ReminderForm.css';
 
-function ReminderForm(props) {
+function ReminderForm() {
+  const { addReminder } = useContext(ReminderContext);
+
   const [formData, setFormData] = useState({
     day: '',
     month: '',
@@ -23,7 +27,7 @@ function ReminderForm(props) {
     ) {
       setFormData({ day: '', month: '', occasion: '', interval: '' });
     } else {
-      props.addReminder(formData);
+      addReminder(formData);
       setFormData({ day: '', month: '', occasion: '', interval: '' });
     }
   };

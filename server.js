@@ -21,8 +21,6 @@ app.use('/api/reminders', reminderRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 
-console.log('hey');
-
 //EMAIL SENDING FUNC
 async function sendEmails(Reminder) {
   const reminders = await Reminder.find();

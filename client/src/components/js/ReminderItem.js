@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import ReminderContext from '../../context/ReminderContext';
 import '../css/ReminderItem.css';
 
 function ReminderItem(props) {
+  const { deleteReminder, updateReminder } = useContext(ReminderContext);
+
   const [formData, setFormData] = useState({
     isEditing: false,
     day: props.day,
@@ -11,7 +14,7 @@ function ReminderItem(props) {
   });
 
   const handleDelete = (id) => {
-    props.deleteReminder(props.id);
+    deleteReminder(props.id);
   };
 
   const toggleEditForm = () => {
@@ -21,7 +24,7 @@ function ReminderItem(props) {
   //take new data from EditForm and send it up to parent
   const handleUpdate = (e) => {
     e.preventDefault();
-    props.updateReminder(
+    updateReminder(
       props.id,
       formData.day,
       formData.month,

@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import ReminderContext from '../../context/ReminderContext';
 import '../css/Content.css';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import Page1 from './Page1';
 import Page2 from './Page2';
@@ -9,7 +10,9 @@ import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
 
 function Content(props) {
+  const { username } = useContext(ReminderContext);
   const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -21,6 +24,8 @@ function Content(props) {
   const logOut = () => {
     localStorage.removeItem('user');
     setCurrentUser(null);
+    navigate('/');
+    window.location.reload(true);
   };
 
   return (
@@ -28,6 +33,7 @@ function Content(props) {
       <section>
         {currentUser ? (
           <div className='UserOptions'>
+            <p>Angemeldet: {username}</p>
             <Link to='/' className='nav-link' onClick={logOut}>
               Ausloggen
             </Link>

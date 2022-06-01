@@ -7,7 +7,8 @@ const ReminderContext = createContext();
 
 export function ReminderProvider({ children }) {
   const [reminders, setReminders] = useState([]);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const loadUser = async () => {
     try {
@@ -27,12 +28,14 @@ export function ReminderProvider({ children }) {
       const res = await axios.get(APIURL);
       const reminders = res.data;
       setReminders([...reminders]);
+      setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
+    setLoading(true);
     loadUser();
     loadReminders();
   }, []);
@@ -82,6 +85,7 @@ export function ReminderProvider({ children }) {
       value={{
         username,
         reminders,
+        loading,
         addReminder,
         deleteReminder,
         updateReminder,

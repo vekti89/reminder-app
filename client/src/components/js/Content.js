@@ -33,7 +33,7 @@ function Content(props) {
       <section>
         {currentUser ? (
           <div className='UserOptions'>
-            <p>Angemeldet: {username}</p>
+            <p className='text-success'>Logged in as {username}</p>
             <Link to='/' className='nav-link' onClick={logOut}>
               Ausloggen
             </Link>

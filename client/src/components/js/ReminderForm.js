@@ -6,35 +6,44 @@ import '../css/ReminderForm.css';
 function ReminderForm() {
   const { addReminder } = useContext(ReminderContext);
 
-  const [formData, setFormData] = useState({
-    day: '',
-    month: '',
-    occasion: '',
-    interval: '',
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [day, setDay] = useState('');
+  const [month, setMonth] = useState('');
+  const [occasion, setOccasion] = useState('');
+  const [interval, setInterval] = useState('');
+  const [msg, setMsg] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
-      formData.day === '' ||
-      formData.month === '' ||
-      formData.occasion === '' ||
-      formData.interval === ''
+      (month == 2 && day > 28) ||
+      (month == 4 && day > 30) ||
+      (month == 6 && day > 30) ||
+      (month == 9 && day > 30) ||
+      (month == 11 && day > 30)
     ) {
-      setFormData({ day: '', month: '', occasion: '', interval: '' });
+      setMsg('Bitte ein gültiges Datum auswählen.');
+    } else if (
+      day &&
+      month &&
+      occasion &&
+      interval &&
+      interval !== '--bitte auswählen--'
+    ) {
+      addReminder({ day, month, occasion, interval });
+      setDay('');
+      setMonth('');
+      setOccasion('');
+      setInterval('');
+      setMsg('');
     } else {
-      addReminder(formData);
-      setFormData({ day: '', month: '', occasion: '', interval: '' });
+      setMsg('Bitte stell dich sicher, dass alle Felder ausgefüllt sind...');
     }
   };
 
   return (
     <main className='ReminderForm'>
       <form className='ReminderForm-form'>
+        <p>{msg.text}</p>
         <section className='ReminderForm-section'>
           <div className='ReminderForm-group'>
             <label htmlFor='datum'>Datum (TT/MM)</label>
@@ -45,8 +54,13 @@ function ReminderForm() {
                 min='1'
                 max='31'
                 required
-                value={formData.day}
-                onChange={handleChange}
+                value={day}
+                onChange={(e) => {
+                  setDay(e.target.value);
+                  if (month && occasion && interval) {
+                    setMsg('');
+                  }
+                }}
                 name='day'
               />
               <input
@@ -55,8 +69,13 @@ function ReminderForm() {
                 min='1'
                 max='12'
                 required
-                value={formData.month}
-                onChange={handleChange}
+                value={month}
+                onChange={(e) => {
+                  setMonth(e.target.value);
+                  if (day && occasion && interval) {
+                    setMsg('');
+                  }
+                }}
                 name='month'
               />
             </div>
@@ -68,8 +87,13 @@ function ReminderForm() {
               id='bezeichnung'
               type='text'
               required
-              value={formData.occasion}
-              onChange={handleChange}
+              value={occasion}
+              onChange={(e) => {
+                setOccasion(e.target.value);
+                if (day && month && interval) {
+                  setMsg('');
+                }
+              }}
               name='occasion'
             />
           </div>
@@ -80,8 +104,13 @@ function ReminderForm() {
               id='errinerung'
               aria-label='errinerung'
               required
-              value={formData.interval}
-              onChange={handleChange}
+              value={interval}
+              onChange={(e) => {
+                setInterval(e.target.value);
+                if (day && month && occasion) {
+                  setMsg('');
+                }
+              }}
               name='interval'
             >
               <option>--bitte auswählen--</option>
@@ -96,6 +125,9 @@ function ReminderForm() {
         <button className='ReminderForm-button' onClick={handleSubmit}>
           SPEICHERN
         </button>
+        {msg && (
+          <div className=' message mt-md-3 p-1 p-md-0 text-danger'>{msg}</div>
+        )}
       </form>
     </main>
   );

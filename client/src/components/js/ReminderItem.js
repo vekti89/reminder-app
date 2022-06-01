@@ -4,38 +4,45 @@ import '../css/ReminderItem.css';
 
 function ReminderItem(props) {
   const { deleteReminder, updateReminder } = useContext(ReminderContext);
-
-  const [formData, setFormData] = useState({
-    isEditing: false,
-    day: props.day,
-    month: props.month,
-    occasion: props.occasion,
-    interval: props.interval,
-  });
+  const [dayE, setDayE] = useState(props.day);
+  const [monthE, setMonthE] = useState(props.month);
+  const [occasionE, setOccasionE] = useState(props.occasion);
+  const [intervalE, setIntervalE] = useState(props.interval);
+  const [isEditing, setIsEditing] = useState(false);
+  const [msg, setMsg] = useState('');
 
   const handleDelete = (id) => {
     deleteReminder(props.id);
   };
 
   const toggleEditForm = () => {
-    setFormData({ ...formData, isEditing: true });
+    setIsEditing(true);
   };
 
   //take new data from EditForm and send it up to parent
   const handleUpdate = (e) => {
     e.preventDefault();
-    updateReminder(
-      props.id,
-      formData.day,
-      formData.month,
-      formData.occasion,
-      formData.interval
-    );
-    setFormData({ ...formData, isEditing: false });
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (
+      (monthE == 2 && dayE > 28) ||
+      (monthE == 4 && dayE > 30) ||
+      (monthE == 6 && dayE > 30) ||
+      (monthE == 9 && dayE > 30) ||
+      (monthE == 11 && dayE > 30)
+    ) {
+      setMsg('Bitte ein gültiges Datum auswählen.');
+    } else if (
+      dayE &&
+      monthE &&
+      occasionE &&
+      intervalE &&
+      intervalE !== '--bitte auswählen--'
+    ) {
+      updateReminder(props.id, dayE, monthE, occasionE, intervalE);
+      setMsg('');
+      setIsEditing(false);
+    } else {
+      setMsg('Bitte stell dich sicher, dass alle Felder ausgefüllt sind...');
+    }
   };
 
   const { day, month, occasion, interval } = props;
@@ -55,7 +62,7 @@ function ReminderItem(props) {
   const monthPad = padTo2(month);
 
   let result;
-  if (formData.isEditing) {
+  if (isEditing) {
     result = (
       <main className='ReminderForm'>
         <form className='ReminderForm-form'>
@@ -69,8 +76,13 @@ function ReminderItem(props) {
                   min='1'
                   max='31'
                   required
-                  value={formData.day}
-                  onChange={handleChange}
+                  value={dayE}
+                  onChange={(e) => {
+                    setDayE(e.target.value);
+                    if (monthE && occasionE && intervalE) {
+                      setMsg('');
+                    }
+                  }}
                   name='day'
                 />
                 <input
@@ -79,8 +91,13 @@ function ReminderItem(props) {
                   min='1'
                   max='12'
                   required
-                  value={formData.month}
-                  onChange={handleChange}
+                  value={monthE}
+                  onChange={(e) => {
+                    setMonthE(e.target.value);
+                    if (dayE && occasionE && intervalE) {
+                      setMsg('');
+                    }
+                  }}
                   name='month'
                 />
               </div>
@@ -92,8 +109,13 @@ function ReminderItem(props) {
                 id='bezeichnung'
                 type='text'
                 required
-                value={formData.occasion}
-                onChange={handleChange}
+                value={occasionE}
+                onChange={(e) => {
+                  setOccasionE(e.target.value);
+                  if (dayE && monthE && intervalE) {
+                    setMsg('');
+                  }
+                }}
                 name='occasion'
               />
             </div>
@@ -104,8 +126,13 @@ function ReminderItem(props) {
                 id='errinerung'
                 aria-label='errinerung'
                 required
-                value={formData.interval}
-                onChange={handleChange}
+                value={intervalE}
+                onChange={(e) => {
+                  setIntervalE(e.target.value);
+                  if (dayE && monthE && occasionE) {
+                    setMsg('');
+                  }
+                }}
                 name='interval'
               >
                 <option>--bitte auswählen--</option>
@@ -120,6 +147,9 @@ function ReminderItem(props) {
           <button className='ReminderForm-button' onClick={handleUpdate}>
             SPEICHERN
           </button>
+          {msg && (
+            <div className=' message mt-md-3 p-1 p-md-0 text-danger'>{msg}</div>
+          )}
         </form>
       </main>
     );

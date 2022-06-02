@@ -25,7 +25,6 @@ function Content(props) {
     localStorage.removeItem('user');
     setCurrentUser(null);
     navigate('/');
-    window.location.reload(true);
   };
 
   return (
@@ -33,7 +32,7 @@ function Content(props) {
       <section>
         {currentUser ? (
           <div className='UserOptions'>
-            <p className='text-success'>Logged in as {username}</p>
+            <p>Angemeldet als {username}</p>
             <Link to='/' className='nav-link' onClick={logOut}>
               Ausloggen
             </Link>

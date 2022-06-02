@@ -1,4 +1,5 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useReducer } from 'react';
+import reminderReducer from '../reducers/ReminderReducer';
 import axios from 'axios';
 import authHeader from '../services/auth-header';
 const APIURL = '/api/reminders/';
@@ -6,9 +7,13 @@ const APIURL = '/api/reminders/';
 const ReminderContext = createContext();
 
 export function ReminderProvider({ children }) {
-  const [reminders, setReminders] = useState([]);
-  const [username, setUsername] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const initialState = {
+    reminders: [],
+    loading: false,
+    username: null,
+  };
+
+  const [state, dispatch] = useReducer(reminderReducer, initialState);
 
   const loadUser = async () => {
     try {
@@ -16,8 +21,7 @@ export function ReminderProvider({ children }) {
         headers: authHeader(),
       });
       const user = res.data;
-      console.log(user.name);
-      setUsername(user.name);
+      dispatch({ type: 'GET_USERNAME', payload: user.name });
     } catch (err) {
       console.log(err);
     }
@@ -27,24 +31,23 @@ export function ReminderProvider({ children }) {
     try {
       const res = await axios.get(APIURL);
       const reminders = res.data;
-      setReminders([...reminders]);
-      setLoading(false);
+      dispatch({ type: 'GET_REMINDERS', payload: reminders });
+      // setReminders([...reminders]);
+      // setLoading(false);
     } catch (err) {
       console.log(err);
     }
   };
 
-  useEffect(() => {
-    setLoading(true);
-    loadUser();
-    loadReminders();
-  }, []);
-
   const addReminder = async (val) => {
     try {
       const res = await axios.post(APIURL, val);
       const newReminder = res.data;
-      setReminders([...reminders, newReminder]);
+      dispatch({
+        type: 'ADD_REMINDER',
+        payload: newReminder,
+      });
+      //setReminders([...reminders, newReminder]);
     } catch (err) {
       console.log(err);
     }
@@ -54,8 +57,9 @@ export function ReminderProvider({ children }) {
     try {
       const deleteURL = APIURL + id;
       await axios.delete(deleteURL);
-      const remindersLeft = reminders.filter((r) => r._id !== id);
-      setReminders([...remindersLeft]);
+      //const remindersLeft = state.reminders.filter((r) => r._id !== id);
+      dispatch({ type: 'DELETE_REMINDER', payload: id });
+      //setReminders([...remindersLeft]);
     } catch (err) {
       console.log(err);
     }
@@ -70,11 +74,15 @@ export function ReminderProvider({ children }) {
         occasion,
         interval,
       });
-      const updatedRem = res.data;
-      const updatedReminders = reminders.map((r) =>
-        r._id === updatedRem._id ? { ...r, day, month, occasion, interval } : r
-      );
-      setReminders([...updatedReminders]);
+      // const updatedRem = res.data;
+      // const updatedReminders = state.reminders.map((r) =>
+      //   r._id === updatedRem._id ? { ...r, day, month, occasion, interval } : r
+      // );
+      dispatch({
+        type: 'UPDATE_REMINDER',
+        payload: { id, day, month, occasion, interval },
+      });
+      //setReminders([...updatedReminders]);
     } catch (err) {
       console.log(err);
     }
@@ -83,9 +91,12 @@ export function ReminderProvider({ children }) {
   return (
     <ReminderContext.Provider
       value={{
-        username,
-        reminders,
-        loading,
+        username: state.username,
+        reminders: state.reminders,
+        loading: state.loading,
+        loadUser,
+        loadReminders,
+        dispatch,
         addReminder,
         deleteReminder,
         updateReminder,

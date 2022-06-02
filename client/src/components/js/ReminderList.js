@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import Spinner from './Spinner';
 import ReminderContext from '../../context/ReminderContext';
 import '../css/ReminderList.css';
@@ -6,7 +6,14 @@ import ReminderForm from './ReminderForm';
 import ReminderItem from './ReminderItem';
 
 function ReminderList() {
-  const { reminders, loading } = useContext(ReminderContext);
+  const { reminders, loading, loadUser, loadReminders, dispatch } =
+    useContext(ReminderContext);
+
+  useEffect(() => {
+    dispatch({ type: 'SET_LOADING' });
+    loadUser();
+    loadReminders();
+  }, []);
 
   const remindersToRender = reminders.map((r) => (
     <ReminderItem key={r._id} id={r._id} {...r} />

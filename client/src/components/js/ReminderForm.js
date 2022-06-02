@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react';
 import ReminderContext from '../../context/ReminderContext';
-
 import '../css/ReminderForm.css';
 
 function ReminderForm() {
@@ -39,7 +38,6 @@ function ReminderForm() {
       setMsg('Bitte stell dich sicher, dass alle Felder ausgefüllt sind...');
     }
   };
-
   return (
     <main className='ReminderForm'>
       <form className='ReminderForm-form'>

@@ -55,7 +55,7 @@ const LoginForm = () => {
             <label htmlFor='password'>Passwort</label>
             <input
               id='password'
-              type='text'
+              type='password'
               required
               value={password}
               onChange={(e) => {
